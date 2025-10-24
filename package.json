@@ -1,0 +1,20 @@
+{
+  "name": "ticformat",
+  "version": "1.0.0",
+  "description": "Parser for the TIC-80 .tic file format",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test --experimental-test-coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reverietracker/ticformat.git"
+  },
+  "author": "Matt Westcott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reverietracker/ticformat/issues"
+  },
+  "homepage": "https://github.com/reverietracker/ticformat#readme",
+  "type": "module"
+}
