@@ -19,10 +19,19 @@ export class TICFile {
             const b = buffer.readUInt8(pos++);
             const chunkType = b & 0x1f;
             const bank = b >> 5;
+            if (pos >= buffer.length) {
+                if (chunkType == 17) {
+                    /* a truncated DEFAULT chunk at the end should still be respected */
+                    chunks.push(new Chunk(chunkType, bank, Buffer.alloc(0)));
+                }
+                break;
+            }
             let size = buffer.readUInt16LE(pos);
-            if (size === 0) size = 0x10000;
+            if (size === 0 && (chunkType == 5 || chunkType == 19)) {
+                size = 0x10000;
+            }
             pos += 3;
-            const data = buffer.slice(pos, pos + size);
+            const data = buffer.subarray(pos, pos + size);
             pos += size;
             chunks.push(new Chunk(chunkType, bank, data));
         }

@@ -16,3 +16,26 @@ test("can read .tic files", () => {
     assert.strictEqual(tic.chunks[0].bank, 0);
     assert.strictEqual(tic.chunks[0].data.length, 251);
 });
+
+test("handles zero-length default chunks", () => {
+    const buf = readFileSync(join(__dirname, 'ghostflowers.tic'));
+    const tic = TICFile.fromBuffer(buf);
+
+    assert.strictEqual(tic.chunks.length, 5);
+    assert.strictEqual(tic.chunks[0].type, 17);
+    assert.strictEqual(tic.chunks[0].bank, 0);
+    assert.strictEqual(tic.chunks[0].data.length, 0);
+});
+
+test("can read truncated .tic files", () => {
+    const buf = readFileSync(join(__dirname, 'neasden-ballet.tic'));
+    const tic = TICFile.fromBuffer(buf);
+
+    assert.strictEqual(tic.chunks.length, 2);
+    assert.strictEqual(tic.chunks[0].type, 16);
+    assert.strictEqual(tic.chunks[0].bank, 0);
+    assert.strictEqual(tic.chunks[0].data.length, 247);
+    assert.strictEqual(tic.chunks[1].type, 17);
+    assert.strictEqual(tic.chunks[1].bank, 0);
+    assert.strictEqual(tic.chunks[1].data.length, 0);
+});
